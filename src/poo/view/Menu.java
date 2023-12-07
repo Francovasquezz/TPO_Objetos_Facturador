@@ -1,5 +1,7 @@
 package poo.view;
 
+import poo.view.Factura.ListaFacturas;
+import poo.view.Factura.ListaFacturasPorDia;
 import poo.view.OrdenesDePago.*;
 import poo.view.Productos.CrearProducto;
 import poo.view.Productos.ListaProductos;
@@ -25,7 +27,7 @@ public class Menu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setTitle("Sistema de Facturacion");
-        setBounds(100, 100, 700, 700);
+        setBounds(100, 100, 550, 550);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPane.setBackground(new Color(22, 113, 40));
@@ -34,7 +36,7 @@ public class Menu extends JFrame {
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
-        panelBotones.setBackground(new Color(255, 103, 103));
+        panelBotones.setBackground(new Color(22, 113, 40));
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
@@ -110,6 +112,19 @@ public class Menu extends JFrame {
         });
         menuProductos.add(producto6NewMenuItem);
 
+        JMenu menuFacturas = new JMenu("Facturas");
+        menuFacturas.setFont(new Font("Calibri", Font.ITALIC, 14));
+        menuBar.add(menuFacturas);
+
+        JMenuItem factura1NewMenuItem = new JMenuItem("Mostrar todas las facturas");
+        factura1NewMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListaFacturas ventana = new ListaFacturas();
+                ventana.setVisible(true);
+            }
+        });
+        menuFacturas.add(factura1NewMenuItem);
+
 
 
 
@@ -139,9 +154,47 @@ public class Menu extends JFrame {
         });
         botonConsultarProductosPorProveedor.setBounds(50, 50, 450, 450);
         panelBotones.add(botonConsultarProductosPorProveedor);
+
         contentPane.add(panelBotones, BorderLayout.CENTER);
 
 
+        JButton botonConsultarFacturasPorFechaProveedor = new JButton("Consultar facturas por fecha y/o proveedor");
+        botonConsultarFacturasPorFechaProveedor.setFont(new Font("Calibri", Font.PLAIN, 30));
+        botonConsultarFacturasPorFechaProveedor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListaFacturasPorDia ventana = new ListaFacturasPorDia();
+                ventana.setVisible(true);
+            }
+        });
+        botonConsultarFacturasPorFechaProveedor.setBounds(50, 50, 450, 450);
+        panelBotones.add(botonConsultarFacturasPorFechaProveedor);
+
+        contentPane.add(panelBotones, BorderLayout.CENTER);
+
+        botonConsultarOrdenesDePago.setMaximumSize(botonSize);
+        botonConsultarProductosPorProveedor.setMaximumSize(botonSize);
+        botonConsultarFacturasPorFechaProveedor.setMaximumSize(botonSize);
+
+
+        int espacioVertical = 20;
+        panelBotones.add(botonConsultarOrdenesDePago);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+        panelBotones.add(botonConsultarProductosPorProveedor);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+        panelBotones.add(botonConsultarFacturasPorFechaProveedor);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+
+
+        JButton botonSalida = new JButton("Salir del sistema");
+        botonSalida.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.exit(0);
+            }
+        });
+        contentPane.add(botonSalida, BorderLayout.SOUTH);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());

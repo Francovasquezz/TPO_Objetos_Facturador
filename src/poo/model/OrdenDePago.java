@@ -8,11 +8,11 @@ public class OrdenDePago {
     private double totalCancelar;
     private FormaPago formaPago;
     private double totalRetenciones;
-    private String fecha;
+    private LocalDate fecha;
 
 
 
-    public OrdenDePago(int idOrdenDePago, double totalCancelar, FormaPago formaPago, double totalRetenciones, String fecha) {
+    public OrdenDePago(int idOrdenDePago, double totalCancelar, FormaPago formaPago, double totalRetenciones, LocalDate fecha) {
         this.idOrdenDePago = idOrdenDePago;
         this.totalCancelar = totalCancelar;
         this.formaPago = formaPago;
@@ -35,7 +35,7 @@ public class OrdenDePago {
     public double getTotalRetenciones() {
         return totalRetenciones;
     }
-    public String getFecha() {return fecha;}
+    public LocalDate getFecha() {return fecha;}
 
     public void setIdOrdenDePago(int idOrdenDePago) {
         this.idOrdenDePago = idOrdenDePago;
@@ -53,7 +53,7 @@ public class OrdenDePago {
         this.totalRetenciones = totalRetenciones;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 }

@@ -11,9 +11,9 @@ public class OrdenDePagoDTO {
     private double totalCancelar;
     private FormaPago formaPago;
     private double totalRetenciones;
-    private String fecha;
+    private LocalDate fecha;
 
-    public OrdenDePagoDTO(int idOrdenDePago, double totalCancelar, FormaPago formaPago, double totalRetenciones, String fecha) {
+    public OrdenDePagoDTO(int idOrdenDePago, double totalCancelar, FormaPago formaPago, double totalRetenciones, LocalDate fecha) {
         this.idOrdenDePago = idOrdenDePago;
         this.totalCancelar = totalCancelar;
         this.formaPago = formaPago;
@@ -37,7 +37,7 @@ public class OrdenDePagoDTO {
         return totalRetenciones;
     }
 
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
@@ -56,7 +56,7 @@ public class OrdenDePagoDTO {
         this.totalRetenciones = totalRetenciones;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 }

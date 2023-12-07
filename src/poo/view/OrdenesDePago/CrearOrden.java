@@ -11,13 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Instant;
+import java.time.LocalDate;
 
 public class CrearOrden extends JFrame{
     private JPanel contentPane;
     private JTextField IdOrdenDePago;
     private JTextField TotalCancelar;
     private JComboBox<String> formaDePagoComboBox;
-    private JTextField FormaDePago;
     private JTextField TotalRetenciones;
     private JTextField Fecha;
 
@@ -94,16 +94,23 @@ public class CrearOrden extends JFrame{
         formPanel.add(TotalRetenciones, gbc);
 
 
-        JLabel lbFecha= new JLabel("Fecha:");
+        JLabel lbFecha = new JLabel("Fecha:");
         gbc.gridx = 0;
         gbc.gridy = 4;
         formPanel.add(lbFecha, gbc);
 
-        Fecha = new JTextField();
-        Fecha.setColumns(15);
+// Use JFormattedTextField for date input
+        JFormattedTextField fechaFormattedTextField = new JFormattedTextField();
+        fechaFormattedTextField.setColumns(15);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        formPanel.add(Fecha, gbc);
+        formPanel.add(fechaFormattedTextField, gbc);
+
+        JLabel lbInstruccion = new JLabel("FORMATO DE FECHA: YYYY-MM-DD");
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(lbInstruccion, gbc);
+
 
 
         JButton btnCrearOrden = new JButton("Crear Orden de Pago");
@@ -120,7 +127,7 @@ public class CrearOrden extends JFrame{
                     JOptionPane.showMessageDialog(null, "Seleccione una forma de pago", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (TotalRetenciones.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de Total Retenciones debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    } else if (Fecha.getText().equalsIgnoreCase("")) {
+                    } else if (fechaFormattedTextField.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de Fecha debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
@@ -128,7 +135,8 @@ public class CrearOrden extends JFrame{
                         int cancelar_orden = Integer.parseInt(TotalCancelar.getText());
                         FormaPago forma_orden = FormaPago.valueOf(formaDePagoComboBox.getSelectedItem().toString().toUpperCase());
                         int retenciones_orden = Integer.parseInt(TotalRetenciones.getText());
-                        String fecha_orden = String.valueOf(Fecha.getText());
+                        String fechaString = fechaFormattedTextField.getText();
+                        LocalDate fecha_orden = LocalDate.parse(fechaString);
 
                         OrdenDePagoDTO nueva_orden = new OrdenDePagoDTO(id_Orden, cancelar_orden, forma_orden, retenciones_orden, fecha_orden);
                         boolean respuesta = ControllerGestion.getControlador().crearOrdenDePago(nueva_orden);
@@ -142,7 +150,7 @@ public class CrearOrden extends JFrame{
                         TotalCancelar.setText("");
                         formaDePagoComboBox.setSelectedIndex(0);
                         TotalRetenciones.setText("");
-                        Fecha.setText("");
+                        fechaFormattedTextField.setText("");
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);

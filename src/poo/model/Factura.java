@@ -1,55 +1,71 @@
 package poo.model;
 
+import poo.model.Impuesto;
+import poo.model.DetalleFactura;
+import poo.model.Documento;
+
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
-import poo.enums.Impuesto;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Factura extends Documento {
     private Collection<Impuesto> impuestos;
-    private Date fecha;
+    private LocalDate fecha;
     private Collection<DetalleFactura> detalles;
+    private int cuitProveedor;
 
-    private String cuitProveedor;
-
-
-
-    public Factura(int idDocumento, int cuit, Boolean estaPago, double monto, Collection<Impuesto> impuestos, Date fecha, Collection<DetalleFactura> detalles, String cuitProveedor) {
-        super(idDocumento, cuit, estaPago, monto);
+    public Factura(int id, int cuit, Boolean estaPago, Collection<Impuesto> impuestos, LocalDate fecha, Collection<DetalleFactura> detalles, int cuitProveedor) {
+        super(id, cuit, estaPago, calculateMonto(detalles));
         this.impuestos = impuestos;
         this.fecha = fecha;
         this.detalles = detalles;
         this.cuitProveedor = cuitProveedor;
     }
 
-    @Override
-    public int getCuit() {
-        return super.getCuit();
+    private static double calculateMonto(Collection<DetalleFactura> detalles) {
+        return detalles.stream()
+                .mapToDouble(detalle -> detalle.getProducto().getUltimoPrecio())
+                .sum();
+    }
+    public List<String> getDetallesFacturaNames() {
+        return detalles.stream()
+                .map(detalle -> detalle.getProducto().getProducto().getNombreProducto())
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public Boolean getEstaPago() {
-        return super.getEstaPago();
+
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public Collection<DetalleFactura> getDetalles() {
-        return detalles;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Collection<Impuesto> getImpuestos() {
         return impuestos;
     }
 
-    @Override
-    public double getMonto() {
-        return super.getMonto();
+    public void setImpuestos(Collection<Impuesto> impuestos) {
+        this.impuestos = impuestos;
     }
 
-    public Date getFecha() {
-        return fecha;
+
+    public Collection<DetalleFactura> getDetalles() {
+        return detalles;
     }
 
-    public String getCuitProveedor() {
+    public void setDetalles(Collection<DetalleFactura> detalles) {
+        this.detalles = detalles;
+    }
+
+    public int getCuitProveedor() {
         return cuitProveedor;
+    }
+
+    public void setCuitProveedor(int cuitProveedor) {
+        this.cuitProveedor = cuitProveedor;
     }
 
     public void getOrdenDeCompraById(){

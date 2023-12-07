@@ -2,7 +2,7 @@ package poo.model;
 
 import java.beans.ConstructorProperties;
 import java.util.Date;
-import poo.enums.Impuesto;
+import poo.model.Impuesto;
 
 public class Certificado {
     private Date fechaInicio;

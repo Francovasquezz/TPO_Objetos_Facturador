@@ -4,8 +4,10 @@ import poo.model.*;
 import poo.dto.*;
 
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControllerGestion {
 
@@ -21,6 +23,7 @@ public class ControllerGestion {
     private static List<Proveedor> proveedores;
     private static List<Producto> productos;
     private static List<ProductoPorProveedor> productosPorProveedor;
+    private static List<Impuesto> impuestos;
     private static ControllerGestion INSTANCE;
 
 
@@ -29,6 +32,7 @@ public class ControllerGestion {
         iniciarProductos();
         iniciarProveedores();
         iniciarProductosPorProveedor();
+        iniciarFacturas();
     }
 
     public static synchronized ControllerGestion getControlador(){
@@ -99,7 +103,102 @@ public class ControllerGestion {
 
     public void consultaLibroIva(){};
  */
+    /*FACTURA*/
 
+    private static void iniciarFacturas() {
+        facturas = new ArrayList<>();
+        detallesFactura = new ArrayList<>();
+        impuestos = new ArrayList<>();
+
+        Impuesto impuestoIva = new Impuesto(1, TipoImpuesto.IVA, 0.21);
+        Impuesto impuestoGanancia = new Impuesto(2, TipoImpuesto.GANANCIAS, 0.35);
+
+        impuestos.add(impuestoIva);
+        impuestos.add(impuestoGanancia);
+
+        ProductoPorProveedor producto1 = productosPorProveedor.get(0);
+        ProductoPorProveedor producto2 = productosPorProveedor.get(1);
+        ProductoPorProveedor producto3 = productosPorProveedor.get(2);
+        ProductoPorProveedor producto4 = productosPorProveedor.get(3);
+
+
+        DetalleFactura detalle1 = new DetalleFactura(1, producto1, 3);
+        DetalleFactura detalle2 = new DetalleFactura(2, producto2, 5);
+
+
+        detallesFactura.add(detalle1);
+        detallesFactura.add(detalle2);
+
+        Factura factura1 = new Factura(1, 1230001, true, impuestos, LocalDate.of(2001, 01, 01), detallesFactura, 21430007);
+
+        detallesFactura.clear();
+
+        DetalleFactura detalle3 = new DetalleFactura(1, producto3, 2);
+        DetalleFactura detalle4 = new DetalleFactura(2, producto4, 4);
+
+        detallesFactura.add(detalle3);
+        detallesFactura.add(detalle4);
+
+        Factura factura2 = new Factura(2, 1230002, false, impuestos, LocalDate.of(2002, 01, 01), detallesFactura, 21430008);
+
+        facturas.add(factura1);
+        facturas.add(factura2);
+    }
+
+
+    public static Factura toModelFactura(FacturaDTO dto) {
+        Factura factura = new Factura(dto.getId(), dto.getCuit(), dto.getEstaPago(), dto.getImpuestos(), dto.getFecha(), dto.getDetalles(), dto.getCuitProveedor());
+        return factura;
+    }
+
+    public boolean crearFactura(FacturaDTO dto) {
+        Factura facturaAux = toModelFactura(dto);
+        boolean existe = false;
+        for(int i = 0; i < facturas.size(); i++) {
+            if(facturaAux.getId() == facturas.get(i).getId()) {
+                existe = true;
+            }
+        }
+        if(!existe) {
+            facturas.add(facturaAux);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public static Vector<String> obtenerFacturas() {
+        Vector<String> listaFacturas = new Vector<>();
+        if (facturas != null) {
+            listaFacturas.add("id                         Esta Pago                                        Monto                                                   Pedido                                        Fecha                                             Cuit Proveedor");
+            for (int i = 0; i < facturas.size(); i++) {
+                StringBuilder facturaDetails = new StringBuilder();
+
+                // Iterate over DetallesFactura and append product names to facturaDetails
+                for (DetalleFactura detalle : facturas.get(i).getDetalles()) {
+                    facturaDetails.append(detalle.getProducto().getProducto().getNombreProducto()).append(", ");
+                }
+
+                listaFacturas.add(facturas.get(i).getId() + "              " +
+                        "                         " + facturas.get(i).getEstaPago() +
+                        "                                  " + facturas.get(i).getMonto() +
+                        "                                                     " +
+                        facturaDetails.toString() + "                                                    " +
+                        facturas.get(i).getFecha() +
+                        "                                                    " + facturas.get(i).getCuitProveedor());
+            }
+        }
+        return listaFacturas;
+    }
+
+
+    public List<Factura> obtenerFacturasPorFechaOProveedor(LocalDate fecha, int cuitProveedor) {
+        return facturas.stream()
+                .filter(factura -> factura.getFecha().equals(fecha) || factura.getCuitProveedor() == cuitProveedor)
+                .collect(Collectors.toList());
+    }
+
+    /*FIN FACTURA*/
 
 
     /*Consultar Precio producto por proveedor*/
@@ -261,8 +360,8 @@ public class ControllerGestion {
     /*ORDENES DE PAGO*/
     private static void iniciarOrdenesDePago(){
         ordenesDePago = new ArrayList<>();
-        ordenesDePago.add(new OrdenDePago(1, 1000, FormaPago.EFECTIVO, 150, "11/11/2002"));
-        ordenesDePago.add(new OrdenDePago(2, 2000, FormaPago.EFECTIVO, 440, "11/11/2001"));
+        ordenesDePago.add(new OrdenDePago(1, 1000, FormaPago.EFECTIVO, 150, LocalDate.of(2001, 01, 01)));
+        ordenesDePago.add(new OrdenDePago(2, 2000, FormaPago.EFECTIVO, 440, LocalDate.of(2002, 01, 01)));
     }
     public static Vector<String> obtenerOrdenesDePago() {
         Vector<String> listaOrdenesDePago = new Vector<>();
