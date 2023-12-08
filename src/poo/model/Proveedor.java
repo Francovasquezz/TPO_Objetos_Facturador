@@ -109,29 +109,39 @@ public class Proveedor {
     public double getDocumentosDeudaProveedor(List<Factura> facturas, List<NotaDeCredito> notasDeCredito, List<NotaDeDebito> notasDeDebito, List<ChequePropio> chequesPropio, List<ChequeTerceros> chequesTerceros) {
         double montosCalculados = 0;
 
-        for (Factura factura: facturas) {
-            if (factura.getCuit() != this.cuit) continue;
-            if (!factura.getEstaPago()) montosCalculados += factura.getMonto();
+        if (facturas != null) {
+            for (Factura factura: facturas) {
+                if (factura.getCuitProveedor() != this.cuit) continue;
+                if (!factura.getEstaPago()) montosCalculados += factura.getMonto();
+            }
         }
 
-        for (NotaDeCredito notaDeCredito: notasDeCredito) {
-            if (notaDeCredito.getCuit() != this.cuit) continue;
-            if (!notaDeCredito.getEstaPago()) montosCalculados += notaDeCredito.getMonto();
+        if (notasDeCredito != null) {
+            for (NotaDeCredito notaDeCredito: notasDeCredito) {
+                if (notaDeCredito.getCuitProveedor() != this.cuit) continue;
+                if (!notaDeCredito.getEstaPago()) montosCalculados += notaDeCredito.getMonto();
+            }
         }
 
-        for (NotaDeDebito notaDeDebito: notasDeDebito) {
-            if (notaDeDebito.getCuit() != this.cuit) continue;
-            if (!notaDeDebito.getEstaPago()) montosCalculados += notaDeDebito.getMonto();
+        if (notasDeDebito != null) {
+            for (NotaDeDebito notaDeDebito: notasDeDebito) {
+                if (notaDeDebito.getCuitProveedor() != this.cuit) continue;
+                if (!notaDeDebito.getEstaPago()) montosCalculados += notaDeDebito.getMonto();
+            }
         }
 
-        for (ChequePropio chequePropio: chequesPropio) {
-            if (chequePropio.getCuit() != this.cuit) continue;
-            if (!chequePropio.getEstaPago()) montosCalculados += chequePropio.getMonto();
+        if (chequesPropio != null) {
+            for (ChequePropio chequePropio: chequesPropio) {
+                if (chequePropio.getCuit() != this.cuit) continue;
+                if (!chequePropio.getEstaPago()) montosCalculados += chequePropio.getMonto();
+            }
         }
 
-        for (ChequeTerceros chequeTerceros: chequesTerceros) {
-            if (chequeTerceros.getCuit() != this.cuit) continue;
-            if (!chequeTerceros.getEstaPago()) montosCalculados += chequeTerceros.getMonto();
+        if (chequesTerceros != null) {
+            for (ChequeTerceros chequeTerceros: chequesTerceros) {
+                if (chequeTerceros.getCuit() != this.cuit) continue;
+                if (!chequeTerceros.getEstaPago()) montosCalculados += chequeTerceros.getMonto();
+            }
         }
 
         return montosCalculados;
