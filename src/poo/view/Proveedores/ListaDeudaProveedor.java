@@ -30,6 +30,7 @@ public class ListaDeudaProveedor extends JFrame {
         proveedorField = new JTextField();
 
         JButton searchButton = new JButton("Obtener deuda");
+        JButton closeButton = new JButton("Cerrar ventana"); // New button for closing the window
         resultArea = new JTextArea();
         resultArea.setEditable(false);
 
@@ -40,14 +41,22 @@ public class ListaDeudaProveedor extends JFrame {
             }
         });
 
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the window when the button is clicked
+                dispose();
+            }
+        });
+
         panel.add(proveedorLabel);
         panel.add(proveedorField);
         panel.add(searchButton);
         panel.add(resultArea);
+        panel.add(closeButton); // Add the close button
 
         add(panel);
     }
-
     private void obtenerDeuda() {
         try {
             if (proveedorField.getText().trim().isEmpty()) {
