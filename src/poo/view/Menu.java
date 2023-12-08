@@ -9,6 +9,7 @@ import poo.view.ProductosPorProveedor.CrearProductoPorProveedor;
 import poo.view.ProductosPorProveedor.ListaProductosPorProveedor;
 import poo.view.ProductosPorProveedor.VistaProductosPorProveedor;
 import poo.view.Proveedores.CrearProveedor;
+import poo.view.Proveedores.ListaDeudaProveedor;
 import poo.view.Proveedores.ListaProveedores;
 
 import javax.swing.*;
@@ -171,9 +172,23 @@ public class Menu extends JFrame {
 
         contentPane.add(panelBotones, BorderLayout.CENTER);
 
+        JButton botonConsultarDeudaPorProveedor = new JButton("Consultar deuda por proveedor");
+        botonConsultarDeudaPorProveedor.setFont(new Font("Calibri", Font.PLAIN, 30));
+        botonConsultarDeudaPorProveedor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListaDeudaProveedor ventana = new ListaDeudaProveedor();
+                ventana.setVisible(true);
+            }
+        });
+        botonConsultarDeudaPorProveedor.setBounds(50, 50, 450, 450);
+        panelBotones.add(botonConsultarDeudaPorProveedor);
+
+        contentPane.add(panelBotones, BorderLayout.CENTER);
+
         botonConsultarOrdenesDePago.setMaximumSize(botonSize);
         botonConsultarProductosPorProveedor.setMaximumSize(botonSize);
         botonConsultarFacturasPorFechaProveedor.setMaximumSize(botonSize);
+        botonConsultarDeudaPorProveedor.setMaximumSize(botonSize);
 
 
         int espacioVertical = 20;
@@ -183,6 +198,7 @@ public class Menu extends JFrame {
         panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
         panelBotones.add(botonConsultarFacturasPorFechaProveedor);
         panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+        panelBotones.add(botonConsultarDeudaPorProveedor);
 
 
         JButton botonSalida = new JButton("Salir del sistema");

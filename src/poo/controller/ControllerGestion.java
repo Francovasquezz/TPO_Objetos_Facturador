@@ -320,6 +320,15 @@ public class ControllerGestion {
         return listaProveedores;
     }
 
+    public double totalDeudaPorProveedor(int cuit) {
+        Proveedor proveedorBuscado = proveedores.stream()
+                .filter(p -> p.getCuit() == cuit)
+                .findFirst()
+                .orElse(null);
+
+        return proveedorBuscado.getDocumentosDeudaProveedor(facturas, notasDeCredito, notasDeDebito, chequesPropio, chequesTerceros);
+    }
+
 
     /*-PROVEEDORES*/
 
