@@ -4,6 +4,7 @@ import poo.model.Factura;
 import poo.controller.ControllerGestion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -28,16 +29,32 @@ public class ListaFacturasPorDia extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel dateLabel = new JLabel("Enter Date (yyyy-MM-dd):");
+        JLabel dateLabel = new JLabel("Ingrese la fecha de la factura (yyyy-MM-dd):");
+        dateLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         dateField = new JTextField();
-        dateField.setToolTipText("Enter date in yyyy-MM-dd format");
+        dateField.setToolTipText("Ingrese la fecha de la factura en formato YYYY-MM-DD");
 
         JLabel proveedorLabel = new JLabel("Ingrese el cuit del proveedor:");
+        proveedorLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         proveedorField = new JTextField();
 
         JButton searchButton = new JButton("Buscar");
+        searchButton.setBackground(Color.BLUE);
+        searchButton.setForeground(Color.WHITE);
+
         resultArea = new JTextArea();
         resultArea.setEditable(false);
+
+        JButton closeButton = new JButton("Cerrar");
+        closeButton.setBackground(Color.RED);
+        closeButton.setForeground(Color.WHITE);
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the window when the close button is clicked
+                dispose();
+            }
+        });
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -52,6 +69,7 @@ public class ListaFacturasPorDia extends JFrame {
         panel.add(proveedorField);
         panel.add(searchButton);
         panel.add(resultArea);
+        panel.add(closeButton);
 
         add(panel);
     }
@@ -70,7 +88,7 @@ public class ListaFacturasPorDia extends JFrame {
                 cuitProveedor = Integer.parseInt(proveedorField.getText().trim());
             } else {
                 // Both fields are empty, show an error or handle it according to your requirement
-                JOptionPane.showMessageDialog(this, "Enter at least one input", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese la fecha o el cuit del proveedor", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -80,11 +98,13 @@ public class ListaFacturasPorDia extends JFrame {
             );
 
             displayFacturas(matchingFacturas);
+
+            dateField.setText("");
+            proveedorField.setText("");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void displayFacturas(List<Factura> facturas) {
         StringBuilder resultText = new StringBuilder();
@@ -99,6 +119,10 @@ public class ListaFacturasPorDia extends JFrame {
 
         resultArea.setText(resultText.toString());
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new ListaFacturasPorDia().setVisible(true);
+        });
+    }
 }
-
-

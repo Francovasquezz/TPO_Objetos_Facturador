@@ -5,6 +5,7 @@ import poo.controller.ControllerGestion.*;
 import poo.model.ProductoPorProveedor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -26,8 +27,21 @@ public class VistaProductosPorProveedor extends JFrame{
         JLabel idProductoLabel = new JLabel("Ingrese ID de Producto:");
         idProductoField = new JTextField();
         JButton buscarButton = new JButton("Buscar");
-        resultadoArea = new JTextArea(10, 30);
+        buscarButton.setForeground(Color.WHITE);
+        buscarButton.setBackground(Color.BLUE);
+        resultadoArea = new JTextArea(10, 10);
         resultadoArea.setEditable(false);
+
+        JButton closeButton = new JButton("Cerrar");
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setBackground(Color.RED);
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the window when the close button is clicked
+                dispose();
+            }
+        });
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
@@ -40,6 +54,7 @@ public class VistaProductosPorProveedor extends JFrame{
         panel.add(idProductoField);
         panel.add(buscarButton);
         panel.add(new JScrollPane(resultadoArea));
+        panel.add(closeButton);
 
         add(panel);
     }

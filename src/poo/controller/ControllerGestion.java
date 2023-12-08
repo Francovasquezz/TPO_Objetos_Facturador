@@ -183,9 +183,9 @@ public class ControllerGestion {
                         "                         " + facturas.get(i).getEstaPago() +
                         "                                  " + facturas.get(i).getMonto() +
                         "                                                     " +
-                        facturaDetails.toString() + "                                                    " +
+                        facturaDetails.toString() + "                        " +
                         facturas.get(i).getFecha() +
-                        "                                                    " + facturas.get(i).getCuitProveedor());
+                        "                         " + facturas.get(i).getCuitProveedor());
             }
         }
         return listaFacturas;

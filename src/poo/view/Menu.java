@@ -27,7 +27,7 @@ public class Menu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setTitle("Sistema de Facturacion");
-        setBounds(100, 100, 550, 550);
+        setBounds(100, 100, 750, 750);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPane.setBackground(new Color(22, 113, 40));
